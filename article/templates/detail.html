@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Page content-->
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h2 class="fw-bolder mb-1">{{article.title}}</h2>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">{{article.created_date}} Tarihinde  Hazırlayan : {{request.user.username}}  </div>
+                            
+                        </header>
+                        <!-- Preview image figure-->
+                        {% if article.article_image %}
+                        
+                        
+                            <img class="img-fluid rounded" src="{{article.article_image.url}}" alt = "">
+                        
+                        {% endif %}
+                        
+                        <!-- Post content-->
+                        <section class="mb-5">
+                            <hr>
+                            <p class="fs-5 mb-4">{{article.content | safe}}
+                            
+                            </p>
+                            <hr>
+                            <h4> Yorumlar</h4>
+                            <hr>
+                        </section>
+
+                    </article>
+                    <!-- Comments section-->
+                    <section>
+                        {% if  comments %}
+                            {% for comment in comments  %}
+                            
+                            
+                            <!-- Single comment-->
+                                <div class="media mb-4">
+                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                    <div class="ms-3">
+                                        <h5 class="fw-bold">&nbsp;{{comment.comment_author}}</h5>
+                                        &nbsp;{{comment.comment_date}} <br>
+                                        &nbsp;{{comment.comment_content}}
+                                        
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                        <div class = "alert alert-danger">
+                            Bu makalede yorum yoktur. İlk yorum yapan siz olun...
+                        </div>
+                        {% endif %}
+                        <form method = "post", action="{% url 'article:comment' article.id %}">
+                        
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">İsim</label>
+                            <input name = "comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="İsminizi Girin">
+                        </div>
+                        
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <!-- Comment form-->
+                                <form class="mb-4">
+                                <input name = "comment_content" class="form-control" id="formGroupExampleInput" placeholder="Yorumlarınızı Bekliyoruz...!"></form>
+                                <hr>
+                                <button type="submit" class="btn btn-primary btn-sm">Yorum Ekle</button>
+                                <hr>
+                                
+                            </div>
+                        </div>
+                        </form>
+                    </section>
+                </div>
+                
+            </div>
+       
+        </div>
+
+
+{% endblock body %}

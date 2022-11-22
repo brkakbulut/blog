@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class = "jumbotron text-center"; style = "margin-left : 25px; margin-right : 25px">
+    <h3>Yazılım Bloguna Hoşgeldiniz...</h3>
+    <p>Bu Test ve Eğitim Amaçlı Hazırlandı...</p>
+</div>
+
+<p>
+{% if request.user.is_authenticated %}
+    Giriş Yapılmış, {{request.user.username}}
+{% else %}
+    Giriş Yapılmamış
+{% endif %}
+</p>
+
+
+ {% endblock body %}
+
